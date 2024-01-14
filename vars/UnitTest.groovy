@@ -1,5 +1,6 @@
-#!/usr/bin/env groovy
+// vars/mavenHelper.groovy
 
-def call() {
-    sh 'mvn test'
+def runMavenTests(String options = '') {
+    // Execute Maven test command
+    sh "mvn test ${options}"
 }
