@@ -12,7 +12,7 @@ pipeline {
             }
         }
         
-        stage('codecoverage') {
+        stage('Code Coverage') {
             steps {
                 script {
                     runCodeCoverageCheck()
@@ -20,7 +20,7 @@ pipeline {
             }
         }
         
-         stage('dependency check') {
+        stage('Dependency Check') {
             steps {
                 script {
                     runDependencyCheck()
@@ -28,8 +28,7 @@ pipeline {
             }
         }
         
-        
-        stage('Cred Check') {
+        stage('Credential Check') {
             steps {
                 script {
                     runCredCheck()
@@ -44,8 +43,5 @@ pipeline {
                 }
             }
         }
-        
-        
-        
     }
 }
