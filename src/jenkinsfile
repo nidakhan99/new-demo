@@ -1,0 +1,51 @@
+@Library('mylib') _
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                script {
+                    gitHelper.cloneRepo('https://github.com/opstree/spring3hibernate.git', 'java7')
+                }
+            }
+        }
+        
+        stage('codecoverage') {
+            steps {
+                script {
+                    codeCov.runCodeCoverageCheck()
+                }
+            }
+        }
+        
+         stage('dependency check') {
+            steps {
+                script {
+                    dependCh.runDependencyCheck()
+                }
+            }
+        }
+        
+        
+        stage('Cred Check') {
+            steps {
+                script {
+                    credScanning.runCredCheck()
+                }
+            }
+        }
+        
+        stage('Run Tests') {
+            steps {
+                script {
+                    mavenHelper.runMavenTests()
+                }
+            }
+        }
+        
+        
+        
+    }
+}
