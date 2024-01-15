@@ -1,52 +1,37 @@
-
-@Library('mylib') _
-
 pipeline {
-    agent any
-    
+   agent any
+   environment {
+        GIT_URL = 'https://github.com/opstree/spring3hibernate.git'
+        GIT_BRANCH = 'java7'
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
                 script {
-                    cloneRepo('https://github.com/opstree/spring3hibernate.git', 'java7')
+                    checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]], userRemoteConfigs: [[url: "${GIT_URL}"]], gitTool: 'Default'])
                 }
             }
         }
         
-        stage('codecoverage') {
+        stage('unit test') {
             steps {
-                script {
-                    runCodeCoverageCheck()
-                }
+                sh 'mvn checkstyle:checkstyle'
             }
         }
         
-         stage('dependency check') {
+        
+    
+        stage('code coverage') {
             steps {
-                script {
-                    runDependencyCheck()
-                }
+                sh 'mvn cobertura:cobertura'
             }
         }
         
-        
-        stage('Cred Check') {
+         stage('dependecy check') {
             steps {
-                script {
-                    runCredCheck()
-                }
+                sh 'mvn dependency-check:check'
             }
         }
-        
-        stage('Run Tests') {
-            steps {
-                script {
-                    runMavenTests()
-                }
-            }
-        }
-        
-        
-        
     }
 }
