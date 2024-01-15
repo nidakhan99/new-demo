@@ -7,7 +7,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    gitHelper.cloneRepo('https://github.com/opstree/spring3hibernate.git', 'java7')
+                    cloneRepo('https://github.com/opstree/spring3hibernate.git', 'java7')
                 }
             }
         }
@@ -15,7 +15,7 @@ pipeline {
         stage('codecoverage') {
             steps {
                 script {
-                    codeCov.runCodeCoverageCheck()
+                    runCodeCoverageCheck()
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
          stage('dependency check') {
             steps {
                 script {
-                    dependCh.runDependencyCheck()
+                    runDependencyCheck()
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
         stage('Cred Check') {
             steps {
                 script {
-                    credScanning.runCredCheck()
+                    runCredCheck()
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    mavenHelper.runMavenTests()
+                    runMavenTests()
                 }
             }
         }
